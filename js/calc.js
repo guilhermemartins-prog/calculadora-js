@@ -84,7 +84,7 @@ teclaRes.addEventListener("click", (evt) => {
 document.addEventListener("keydown", (evt) => {
   const tecla = evt.key;
 
-  // nros de 0 a 9
+  // números
   if (tecla >= "0" && tecla <= "9") {
     sinal = false;
     if (display.innerHTML === "0") {
@@ -93,12 +93,48 @@ document.addEventListener("keydown", (evt) => {
     display.innerHTML += tecla;
   }
 
+  // operadores
+  if (["+", "-", "*", "/"].includes(tecla)) {
+    if (!sinal) {
+      sinal = true;
+      display.innerHTML += tecla;
+    }
+  }
+
+  // decimal (ponto do teclado)
+  if (tecla === "." || tecla === ",") {
+    if (!decimal) {
+      decimal = true;
+      display.innerHTML += ",";
+    }
+  }
+
+  // ENTER = resultado
+  if (tecla === "Enter") {
+    try {
+      const res = eval(display.innerHTML);
+      display.innerHTML = res;
+    } catch {
+      display.innerHTML = "Erro";
+    }
+    sinal = false;
+    decimal = false;
+  }
+
+  // apagar (backspace)
   if (tecla === "Backspace") {
     evt.preventDefault();
-    if (display.textContent.length > 1) {
-      display.textContent = display.textContent.slice(0, -1);
+    if (display.innerHTML.length > 1) {
+      display.innerHTML = display.innerHTML.slice(0, -1);
     } else {
-      display.textContent = "0";
+      display.innerHTML = "0";
     }
+  }
+
+  // limpar tudo (ESC)
+  if (tecla === "Escape") {
+    display.innerHTML = "0";
+    sinal = false;
+    decimal = false;
   }
 });
