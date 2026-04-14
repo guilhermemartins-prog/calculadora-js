@@ -1,0 +1,132 @@
+* {
+  padding: 0;
+  margin: 0;
+  border: none;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #111;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dflex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.calc {
+  background: #1c1c1c;
+  border-radius: 28px;
+  width: 340px;
+  padding: 28px;
+  flex-direction: column;
+}
+
+.nome {
+  display: none;
+}
+
+.div_display {
+  width: 100%;
+  margin-bottom: 22px;
+}
+
+.display {
+  background: #111;
+  border-radius: 16px;
+  text-align: right;
+  padding: 18px 22px;
+  font-family: monospace;
+  font-size: 38px;
+  color: #fff;
+  min-height: 76px;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.div_teclas {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  width: 100%;
+  flex-wrap: unset;
+}
+
+.tecla {
+  height: 66px;
+  border-radius: 14px;
+  border: none;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    filter 0.1s,
+    transform 0.08s;
+}
+
+.tecla:active {
+  transform: scale(0.93);
+  filter: brightness(0.8);
+}
+
+/* Teclas numéricas e parênteses */
+.num {
+  background: #2e2e2e;
+  color: #f0f0f0;
+}
+
+.num:hover {
+  background: #3a3a3a;
+}
+
+/* Teclas de ação: CLS e apagar */
+.teclaOp:not(.op):not(.res) {
+  background: #3a3a3a;
+  color: #bbbbbb;
+}
+
+.teclaOp:not(.op):not(.res):hover {
+  background: #444;
+}
+
+/* Teclas de operação: +, -, x, / */
+.op {
+  background: #f0a500;
+  color: #1a1a1a;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.op:hover {
+  filter: brightness(1.1);
+}
+
+/* Botão igual */
+.res {
+  background: #f0a500;
+  color: #1a1a1a;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.res:hover {
+  filter: brightness(1.1);
+}
+
+/* Botão apagar */
+.clear {
+  font-size: 22px;
+}
+
+/* imagem do botão apagar */
+#tap img {
+  filter: invert(1);
+}
