@@ -10,24 +10,21 @@ const display = document.querySelector(".display");
 let sinal = false;
 let decimal = false;
 
-// adicionar um evento click para as teclas numericas
+// teclas numericas (clique)
 teclaNum.forEach((tecla) => {
   tecla.addEventListener("click", (evt) => {
-    // volta o sinal para false, para permitir um novo sinal
     sinal = false;
-    // verificar se o valor ja é decimal
+
     if (evt.target.innerHTML === ",") {
       if (!decimal) {
         decimal = true;
-        // caso seja zero, adicionar 0 antes do separador
         if (display.innerHTML === "0") {
           display.innerHTML = "0,";
         } else {
-          display.innerHTML += evt.target.innerHTML;
+          display.innerHTML += ",";
         }
       }
     } else {
-      // quando o display tiver 0, limpa para não ficar 0 na frente
       if (display.innerHTML === "0") {
         display.innerHTML = "";
       }
@@ -36,17 +33,17 @@ teclaNum.forEach((tecla) => {
   });
 });
 
-// adicionar o evento clique para as teclas de operacao
+// operadores (clique)
 teclaOp.forEach((tecla) => {
   tecla.addEventListener("click", (evt) => {
-    // verificar se o sinal existe no display
     if (!sinal) {
       sinal = true;
-      // verificar se no display tem 0
+      decimal = false;
+
       if (display.innerHTML === "0") {
         display.innerHTML = "";
       }
-      // trocar do x por '*'
+
       if (evt.target.innerHTML === "x") {
         display.innerHTML += "*";
       } else {
@@ -56,15 +53,15 @@ teclaOp.forEach((tecla) => {
   });
 });
 
-// adicionar o botao clear
-teclaCLS.addEventListener("click", (evt) => {
+// limpar tudo
+teclaCLS.addEventListener("click", () => {
   sinal = false;
   decimal = false;
   display.innerHTML = "0";
 });
 
-// adicionar o botao apagar
-teclaAp.addEventListener("click", (evt) => {
+// apagar
+teclaAp.addEventListener("click", () => {
   if (display.innerHTML.length > 1) {
     display.innerHTML = display.innerHTML.slice(0, -1);
   } else {
@@ -72,15 +69,19 @@ teclaAp.addEventListener("click", (evt) => {
   }
 });
 
-// adicionar o botao resultado
-teclaRes.addEventListener("click", (evt) => {
+// resultado (botão)
+teclaRes.addEventListener("click", () => {
+  try {
+    const res = eval(display.innerHTML.replace(/,/g, "."));
+    display.innerHTML = res;
+  } catch {
+    display.innerHTML = "Erro";
+  }
   sinal = false;
   decimal = false;
-  const res = eval(display.innerHTML);
-  display.innerHTML = res;
 });
 
-// teclas numericas
+// teclado
 document.addEventListener("keydown", (evt) => {
   const tecla = evt.key;
 
@@ -97,11 +98,12 @@ document.addEventListener("keydown", (evt) => {
   if (["+", "-", "*", "/"].includes(tecla)) {
     if (!sinal) {
       sinal = true;
+      decimal = false;
       display.innerHTML += tecla;
     }
   }
 
-  // decimal (ponto do teclado)
+  // decimal
   if (tecla === "." || tecla === ",") {
     if (!decimal) {
       decimal = true;
@@ -109,10 +111,10 @@ document.addEventListener("keydown", (evt) => {
     }
   }
 
-  // ENTER = resultado
+  // enter = calcular
   if (tecla === "Enter") {
     try {
-      const res = eval(display.innerHTML);
+      const res = eval(display.innerHTML.replace(/,/g, "."));
       display.innerHTML = res;
     } catch {
       display.innerHTML = "Erro";
@@ -121,7 +123,7 @@ document.addEventListener("keydown", (evt) => {
     decimal = false;
   }
 
-  // apagar (backspace)
+  // apagar
   if (tecla === "Backspace") {
     evt.preventDefault();
     if (display.innerHTML.length > 1) {
@@ -131,7 +133,7 @@ document.addEventListener("keydown", (evt) => {
     }
   }
 
-  // limpar tudo (ESC)
+  // limpar (ESC)
   if (tecla === "Escape") {
     display.innerHTML = "0";
     sinal = false;
